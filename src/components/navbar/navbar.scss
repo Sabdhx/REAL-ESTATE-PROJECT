@@ -35,14 +35,12 @@ nav {
         width: 28px;
       }
 
-      // Hide logo text on medium screens
       @include md {
         span {
           display: none;
         }
       }
 
-      // Show entire logo on small screens
       @include sm {
         span {
           display: initial;
@@ -71,8 +69,56 @@ nav {
       margin: 20px;
     }
 
+    .user {
+      display: flex;
+      align-items: center;
+      font-weight: bold;
+      position: relative; // Add position relative here
+   span{
+    @include sm{
+      display: none;
+    }
+  
+   }
+      img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 20px;
+      }
+
+      .profile {
+        padding: 12px 24px;
+        background-color: #fece51;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        position: relative; // Add position relative here
+
+        .notification { 
+          top: -8px;
+          right: -8px;       
+          position: absolute; 
+          background-color: red;
+          color: white;
+          border-radius: 50%;
+          height: 26px;
+          width: 26px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: transform 0.4s ease; // Add transition for smooth animation
+        }
+
+        &:hover .notification {
+          transform: scale(1.05); // Add hover effect to notification
+        }
+      }
+    }
+
     .menuIcon {
-    z-index: 999;; // Ensure button is positioned relative to its container
+      z-index: 999; // Ensure button is positioned relative to its container
       display: none;
 
       img {
@@ -105,8 +151,8 @@ nav {
         right: 0;
         // Ensure .menu is above other content when active
       }
-      @include sm{
-        a{
+      @include sm {
+        a {
           display: initial;
         }
       }

@@ -1,25 +1,30 @@
+// @import "../../components/slider/slider.scss";
+
+
 .slider {
   width: 100%;
   height: 350px;
   display: flex;
   gap: 20px;
+  position: relative; // Ensure relative positioning for absolute elements
 
   .fullSlider {
-    position: absolute;
+    position: fixed; // Changed to fixed to cover the whole screen
     width: 100vw;
     height: 100vh;
     top: 0;
     left: 0;
     background-color: black;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: space-between; // Adjusted to place arrows at the edges
+    align-items: center; // Center vertically
 
     .arrow {
       flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
+      cursor: pointer; // Make arrows clickable
 
       img {
         width: 50px;
@@ -29,40 +34,51 @@
         }
       }
     }
+
     .imgContainer {
-      flex: 10;
+      flex: 8;
+      max-width: 80%; // Adjust size as needed
+      max-height: 80%; // Adjust size as needed
+      display: flex;
+      justify-content: center;
+      align-items: center;
 
       img {
         width: 100%;
-        height: 100%;
-        object-fit: cover;
+        height: auto; // Maintain aspect ratio
+        object-fit: contain;
         border-radius: 10px;
         cursor: pointer;
       }
     }
 
-    .close{
+    .close {
       position: absolute;
-      top: 0;
-      right: 0;
+      top: 20px;
+      right: 20px;
       color: white;
       font-size: 36px;
       font-weight: bold;
-      padding: 50px;
       cursor: pointer;
     }
   }
-  img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 10px;
-    cursor: pointer;
-  }
-    .bigImage {
-      flex: 3;
+
+  .bigImage {
+    flex: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+      cursor: pointer;
     }
-    .smallImages {
+  }
+
+  .smallImages {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -71,6 +87,7 @@
 
     img {
       height: 100px;
+      cursor: pointer;
     }
   }
 }

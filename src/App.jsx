@@ -4,6 +4,7 @@ import HomePage from "./routes/homePage/HomePage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SinglePage from "./routes/singlePage/SinglePage";
 import ListPage from "./routes/listPage/ListPage";
+import ProfilePage from "./routes/profilePage/ProfilePage";
 
 
 
@@ -22,6 +23,7 @@ function App() {
    
         <Route path="/Listpage" element={<ListPage/>} />        
         <Route path="/:id" element={<SinglePage />} />
+        <Route path="/ProfilePage" element={<ProfilePage />} />
       </Routes>
       </div>
     </Router>
