@@ -46,7 +46,14 @@
         display: flex;
         flex-direction: column;
         gap: 20px;
-
+        button{
+          padding: 12px 20px;
+          background-color: #fece51;
+          cursor: pointer;
+          border-radius: 10px;
+          width: 19%;
+          border: none;
+        }
         span{
           display: flex;
           align-items: center;

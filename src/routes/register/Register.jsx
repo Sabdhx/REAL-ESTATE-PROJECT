@@ -1,12 +1,12 @@
+import "./Register.scss"
 import React, { useEffect, useState } from 'react';
-import "./LoginPage.scss";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-function LoginPage() {
+function Register() {
   const navigate = useNavigate();
-  const [error,setError] = useState("")
   const [data, setData] = useState({
+    username:"",
     email: "",
     password: ""
   });
@@ -16,13 +16,13 @@ function LoginPage() {
     e.preventDefault();
     try {
       console.log("first");
-      const fetchingData = await axios.post("http://localhost:5000/login", data);
+      const fetchingData = await axios.post("http://localhost:5000/register"
+        ,data
+      );
       console.log(fetchingData)
-      localStorage.setItem("user",JSON.stringify(fetchingData.data))
       navigate("/");
     } catch (error) {
-setError(error.fetchingData.data.message)
-      console.log(error.fetchingData.data.message);
+      console.log(error.message);
     }
   };
 
@@ -31,6 +31,16 @@ setError(error.fetchingData.data.message)
       <div className="login-container">
         <h2 className="login-title">Sign In</h2>
         <form className="login-form" onSubmit={handleSubmit}>
+        <div className="login-input-container">
+            <input
+              onChange={(e) => setData({ ...data, username: e.target.value })}
+              value={data.username}
+              type="text"
+              name="username"
+              placeholder="username"
+              className="login-input"
+            />
+          </div>
           <div className="login-input-container">
             <input
               onChange={(e) => setData({ ...data, email: e.target.value })}
@@ -51,7 +61,6 @@ setError(error.fetchingData.data.message)
               className="login-input"
             />
           </div>
-          {error && <p>{error}</p>}
           <button type="submit" className="login-button">Submit</button>
         </form>
       </div>
@@ -59,4 +68,4 @@ setError(error.fetchingData.data.message)
   );
 }
 
-export default LoginPage;
+export default Register

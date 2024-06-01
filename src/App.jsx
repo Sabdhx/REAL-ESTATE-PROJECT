@@ -5,7 +5,10 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SinglePage from "./routes/singlePage/SinglePage";
 import ListPage from "./routes/listPage/ListPage";
 import ProfilePage from "./routes/profilePage/ProfilePage";
-
+import LoginPage from "./routes/loginPage/LoginPage";
+import Register from "./routes/register/Register";
+import axios from "axios";
+axios.defaults.withCredentials=true
 
 
 function App() {
@@ -24,6 +27,10 @@ function App() {
         <Route path="/Listpage" element={<ListPage/>} />        
         <Route path="/:id" element={<SinglePage />} />
         <Route path="/ProfilePage" element={<ProfilePage />} />
+        <Route path="/LoginPage" element={<LoginPage />} />
+        <Route path="/Register" element={<Register />} />
+
+
       </Routes>
       </div>
     </Router>

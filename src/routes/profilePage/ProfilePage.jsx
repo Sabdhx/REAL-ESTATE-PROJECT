@@ -2,9 +2,20 @@ import React from "react";
 import List from "../../components/List/List";
 import "./ProfilePage.scss"
 import Chat from "../../components/chat/Chat";
+import axios from "axios";
 
 
 function ProfilePage() {
+
+ const handleLogout =async()=>{
+   try {
+    const response = await axios.get("http://localhost:5000/logout")
+    console.log(response)
+   } catch (error) {
+      console.log(error.message)
+   }
+   
+  }
   return (
     <div className="ProfilePage">
       <div className="details">
@@ -22,6 +33,7 @@ function ProfilePage() {
             </span>
             <span>Username: <b>Lana Delray</b></span>
             <span>Email: <b>lana.delray@example.com</b></span>
+            <button onClick={handleLogout}>logout</button>
           </div>
           <div className="title">
             <h1>My List</h1>
