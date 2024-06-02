@@ -1,5 +1,5 @@
 import express from 'express';
-import { login,register,logout, allUsers } from '../component/Components.js';
+import { login,register,logout, allUsers } from '../component/userAuthComponents.js';
 
 const router = express.Router();
 router.get("/",allUsers)

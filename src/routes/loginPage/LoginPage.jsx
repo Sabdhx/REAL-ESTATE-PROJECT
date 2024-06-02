@@ -17,12 +17,13 @@ function LoginPage() {
     try {
       console.log("first");
       const fetchingData = await axios.post("http://localhost:5000/login", data);
-      console.log(fetchingData)
+      console.log(fetchingData);
+      
       localStorage.setItem("user",JSON.stringify(fetchingData.data))
+
       navigate("/");
     } catch (error) {
-setError(error.fetchingData.data.message)
-      console.log(error.fetchingData.data.message);
+      setError("email or password is incorrect")
     }
   };
 
@@ -51,7 +52,7 @@ setError(error.fetchingData.data.message)
               className="login-input"
             />
           </div>
-          {error && <p>{error}</p>}
+          {error && <span>{error}</span>}
           <button type="submit" className="login-button">Submit</button>
         </form>
       </div>

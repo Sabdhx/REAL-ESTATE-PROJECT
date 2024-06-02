@@ -51,13 +51,15 @@ export const login = async (req, res) => {
 
     const match = await bcrypt.compare(password, user.password);
 
-  
+    if (!match) {
+      return res.status(401).json({ message: "Incorrect password" });
+    }
 
     const userFound = {
       username: user.username,
       email: user.email,
-      isAdmin:true,
-      id:user.id
+      isAdmin: true,
+      id: user._id
     };
 
     const token = jwt.sign({ userFound }, "secret", { expiresIn: "1d" });
@@ -70,11 +72,10 @@ export const login = async (req, res) => {
 
     res.status(200).json({ message: "User logged in successfully", userFound });
   } catch (error) {
-    console.error("Error signing in:", error);
-    res.status(500).json({ message: "Failed to sign in" });
+    console.log(error.message);
+    // res.status(500).json({ message: "Failed to sign in" });
   }
-};
-
+}
 export const logout = (req, res) => {
   res.clearCookie("token");
   res.status(200).json({ message: "User logged out successfully" });

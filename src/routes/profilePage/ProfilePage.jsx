@@ -3,14 +3,16 @@ import List from "../../components/List/List";
 import "./ProfilePage.scss"
 import Chat from "../../components/chat/Chat";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 
 function ProfilePage() {
-
+const navigate = useNavigate()
  const handleLogout =async()=>{
    try {
     const response = await axios.get("http://localhost:5000/logout")
     console.log(response)
+   navigate("/loginPage")
    } catch (error) {
       console.log(error.message)
    }
