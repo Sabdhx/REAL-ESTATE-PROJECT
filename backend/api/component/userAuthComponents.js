@@ -2,10 +2,10 @@ import bcrypt from "bcrypt";
 import Prisma from "../lib/prisma.js";
 import jwt from "jsonwebtoken";
 
-export const allUsers=async(req,res)=>{
-  const found=await Prisma.user.findMany();
-  res.status(200).send(found)
-}
+export const allUsers = async (req, res) => {
+  const found = await Prisma.user.findMany();
+  res.status(200).send(found);
+};
 export const register = async (req, res) => {
   const { username, email, password } = req.body;
   const salt = await bcrypt.genSalt(10);
@@ -24,11 +24,11 @@ export const register = async (req, res) => {
       id: user.id,
       username: user.username,
       email: user.email,
-      
-    }
+    };
     console.log(user);
-    res.status(200).json({message:"User created successfully: " ,user:withOutPassword});
-
+    res
+      .status(200)
+      .json({ message: "User created successfully: ", user: withOutPassword });
   } catch (error) {
     console.log(error);
     res.status(500).json("User creation failed");
@@ -55,14 +55,18 @@ export const login = async (req, res) => {
       return res.status(401).json({ message: "Incorrect password" });
     }
 
-    const userFound = {
-      username: user.username,
-      email: user.email,
-      isAdmin: true,
-      id: user._id
-    };
+    const userFound = {};
 
-    const token = jwt.sign({ userFound }, "secret", { expiresIn: "1d" });
+    const token = jwt.sign(
+      {
+        username: user.username,
+        email: user.email,
+        isAdmin: true,
+        id: user._id,
+      },
+      "secret",
+      { expiresIn: "1d" }
+    );
 
     res.cookie("token", token, {
       httpOnly: true,
@@ -75,7 +79,7 @@ export const login = async (req, res) => {
     console.log(error.message);
     // res.status(500).json({ message: "Failed to sign in" });
   }
-}
+};
 export const logout = (req, res) => {
   res.clearCookie("token");
   res.status(200).json({ message: "User logged out successfully" });
