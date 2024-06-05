@@ -55,14 +55,16 @@ export const login = async (req, res) => {
       return res.status(401).json({ message: "Incorrect password" });
     }
 
-    const userFound = {};
-
+    
+    const userFound={
+      username: user.username,
+      email: user.email,
+      isAdmin: true,
+      id: user._id,
+    }
     const token = jwt.sign(
       {
-        username: user.username,
-        email: user.email,
-        isAdmin: true,
-        id: user._id,
+       userFound
       },
       "secret",
       { expiresIn: "1d" }
@@ -74,7 +76,7 @@ export const login = async (req, res) => {
       expires: new Date(Date.now() + 86400000),
     });
 
-    res.status(200).json({ message: "User logged in successfully", userFound });
+    res.status(200).json({ message:"User logged in successfully", userFound });
   } catch (error) {
     console.log(error.message);
     // res.status(500).json({ message: "Failed to sign in" });
@@ -82,5 +84,5 @@ export const login = async (req, res) => {
 };
 export const logout = (req, res) => {
   res.clearCookie("token");
-  res.status(200).json({ message: "User logged out successfully" });
+  res.status(200).send({ message: "User logged out successfully" });
 };

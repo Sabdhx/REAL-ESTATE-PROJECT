@@ -8,10 +8,14 @@ import ProfilePage from "./routes/profilePage/ProfilePage";
 import LoginPage from "./routes/loginPage/LoginPage";
 import Register from "./routes/register/Register";
 import axios from "axios";
+import { useContext } from "react";
+import { myContext } from "./useContext/UserContext";
+import UserNotFound from "./components/UserNotFound/UserNotFound";
 axios.defaults.withCredentials=true
 
-
 function App() {
+  const {item} = useContext(myContext)
+
   return (
     <Router>
       <div className="layout">
@@ -25,12 +29,19 @@ function App() {
     </div>} />
    
         <Route path="/Listpage" element={<ListPage/>} />        
-        <Route path="/:id" element={<SinglePage />} />
+        <Route path="/ProfilePage/singlePage/:id" element={<SinglePage />} />
+        {
+          item ? (
+            <Route path="/ProfilePage" element={<ProfilePage />} />
+          ):(
+            <Route path="/LoginPage" element={<LoginPage />} />
+          )
+        }
         <Route path="/ProfilePage" element={<ProfilePage />} />
-        <Route path="/LoginPage" element={<LoginPage />} />
+        
         <Route path="/Register" element={<Register />} />
 
-
+        <Route path="/*" element={<UserNotFound/>} />
       </Routes>
       </div>
     </Router>

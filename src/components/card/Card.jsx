@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 export const Card=({item})=> {
   return (
    <div className="Card">
-    <Link to={`${item.id}`} className="imageContainer">
+    <Link to={`singlePage/${item.id}`} className="imageContainer">
       <img src={item.image} alt="" />
     </Link>
     <div className="textContainer">

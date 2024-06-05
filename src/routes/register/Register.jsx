@@ -16,7 +16,7 @@ function Register() {
     e.preventDefault();
     try {
       console.log("first");
-      const fetchingData = await axios.post("http://localhost:5000/register"
+      const fetchingData = await axios.post("http://localhost:5000/user/register"
         ,data
       );
       console.log(fetchingData)

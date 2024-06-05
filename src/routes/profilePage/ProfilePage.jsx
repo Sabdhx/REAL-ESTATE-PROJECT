@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import List from "../../components/List/List";
 import "./ProfilePage.scss";
 import Chat from "../../components/chat/Chat";
@@ -8,14 +8,20 @@ import { myContext } from "../../useContext/UserContext";
 
 function ProfilePage() {
   const { item } = useContext(myContext);
-  console.log(item);
+  const parsedData = JSON.parse(item)
+  useEffect(()=>{
+   console.log(parsedData.userFound.username)
+  },[])
   const navigate = useNavigate();
+
   const handleLogout = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/logout");
+      const response = await axios.get("http://localhost:5000/user/logout");
       console.log(response);
       localStorage.removeItem("user")
+      
       navigate("/loginPage");
+      window.location.reload();
     } catch (error) {
       console.log(error.message);
     }
@@ -37,10 +43,10 @@ function ProfilePage() {
               />
             </span>
             <span>
-              Username: <b>Lana Delray</b>
+              Username: <b>{parsedData.userFound.username}</b>
             </span>
             <span>
-              Email: <b>lana.delray@example.com</b>
+              Email: <b>{parsedData.userFound.email}</b>
             </span>
             <button onClick={handleLogout}>logout</button>
           </div>

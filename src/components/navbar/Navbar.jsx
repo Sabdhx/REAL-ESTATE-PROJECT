@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./navbar.scss"; // Make sure the path is correct
-import { Link } from "react-router-dom";
+import { Link, json } from "react-router-dom";
+import { myContext } from "../../useContext/UserContext";
 
 function Navbar() {
+  const {item} = useContext(myContext)
+  const parsedData = JSON.parse(item)
+  
   const [open, setOpen] = useState(false);
   const user = true;
   return (
@@ -25,7 +29,14 @@ function Navbar() {
               src="https://hips.hearstapps.com/hmg-prod/images/copy-of-del-social-index-image-2023-07-21t114702-854-64baa8a5cd6d7.png?crop=0.502xw:1.00xh;0,0&resize=640:*"
               alt=""
             />
-            <span>John Doe</span>
+            {
+              parsedData ? (
+                <span>{parsedData.userFound.username}</span>
+              ):(
+                <span>user not found</span>
+              )
+            }
+          
             <Link to={"/profile"} className="profile">
               <div className="notification">3</div>
               <span>Profile</span>

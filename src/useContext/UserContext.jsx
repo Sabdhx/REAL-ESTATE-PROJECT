@@ -14,7 +14,7 @@ function UserContext({ children }) {
       if (!fetchedData) {
         const response = await axios.get("http://localhost:5000/user");
         console.log("first");
-        setfetchedData(response);
+        setfetchedData(response.data);
       }
     };
     dataFetching();

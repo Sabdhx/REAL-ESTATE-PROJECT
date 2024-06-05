@@ -15,15 +15,16 @@ function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log("first");
-      const fetchingData = await axios.post("http://localhost:5000/login", data);
-      console.log(fetchingData);
-      
-      localStorage.setItem("user",JSON.stringify(fetchingData.data))
 
+      console.log("first");
+      const fetchingData = await axios.post("http://localhost:5000/user/login", data);
+      console.log(fetchingData.data);    
+      localStorage.setItem("user",JSON.stringify(fetchingData.data))
       navigate("/");
+
     } catch (error) {
       setError("email or password is incorrect")
+      console.log(error)
     }
   };
 
