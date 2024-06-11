@@ -11,10 +11,11 @@ import axios from "axios";
 import { useContext } from "react";
 import { myContext } from "./useContext/UserContext";
 import UserNotFound from "./components/UserNotFound/UserNotFound";
+import UpdatePage from "./routes/UpdatePage/UpdatePage";
 axios.defaults.withCredentials=true
 
 function App() {
-  const {item} = useContext(myContext)
+  const {fetchedData} = useContext(myContext)
 
   return (
     <Router>
@@ -31,7 +32,7 @@ function App() {
         <Route path="/Listpage" element={<ListPage/>} />        
         <Route path="/ProfilePage/singlePage/:id" element={<SinglePage />} />
         {
-          item ? (
+          fetchedData ? (
             <Route path="/ProfilePage" element={<ProfilePage />} />
           ):(
             <Route path="/LoginPage" element={<LoginPage />} />
@@ -40,8 +41,10 @@ function App() {
         <Route path="/ProfilePage" element={<ProfilePage />} />
         
         <Route path="/Register" element={<Register />} />
+        <Route path="/UpdatePage" element={<UpdatePage/>} />
 
         <Route path="/*" element={<UserNotFound/>} />
+
       </Routes>
       </div>
     </Router>

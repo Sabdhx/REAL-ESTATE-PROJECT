@@ -68,18 +68,24 @@ nav {
       padding: 12px 24px;
       margin: 20px;
     }
-
+    .signIn {
+      padding: 12px 24px;
+        background-color: #fece51;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        position: relative;
+    }
     .user {
       display: flex;
       align-items: center;
       font-weight: bold;
       position: relative; // Add position relative here
-   span{
-    @include sm{
-      display: none;
-    }
-  
-   }
+      span {
+        @include sm {
+          display: none;
+        }
+      }
       img {
         width: 40px;
         height: 40px;
@@ -96,10 +102,10 @@ nav {
         border-radius: 5px;
         position: relative; // Add position relative here
 
-        .notification { 
+        .notification {
           top: -8px;
-          right: -8px;       
-          position: absolute; 
+          right: -8px;
+          position: absolute;
           background-color: red;
           color: white;
           border-radius: 50%;

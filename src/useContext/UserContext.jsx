@@ -1,32 +1,28 @@
-import axios from "axios";
-import { Children, useEffect, useState } from "react";
-import { createContext } from "react";
+import React, { createContext, useEffect, useState } from "react";
 
 export const myContext = createContext();
 
-import React from "react";
-
 function UserContext({ children }) {
-  const [fetchedData, setfetchedData] = useState(null);
+  const [fetchedData, setFetchedData] = useState(() => {
+    const storedUser = localStorage.getItem('user');
+    return storedUser ? JSON.parse(storedUser) : null});
+
+  const updateUser = (data) => {
+    setFetchedData(data);
+    localStorage.setItem('user', JSON.stringify(data));
+  };
 
   useEffect(() => {
-    const dataFetching = async () => {
-      if (!fetchedData) {
-        const response = await axios.get("http://localhost:5000/user");
-        console.log("first");
-        setfetchedData(response.data);
-      }
-    };
-    dataFetching();
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setFetchedData(JSON.parse(storedUser));
+    }
   }, []);
 
- const item= localStorage.getItem(('user'))
   return (
-    <>
-      <myContext.Provider value={{fetchedData,item}}>
-        {children}
-      </myContext.Provider>
-    </>
+    <myContext.Provider value={{ fetchedData, updateUser }}>
+      {children}
+    </myContext.Provider>
   );
 }
 

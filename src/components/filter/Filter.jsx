@@ -3,45 +3,58 @@ import "./Filter.scss";
 
 const Filter = () => {
   return (
-    <div className="Filter">
+    <div className="filter">
       <h1>
-        Search results for <b>London</b>
+        Search results for <b></b>
       </h1>
       <div className="top">
         <div className="item">
-          <label className="city">Type</label>
-          <select name="type" id="type">
-          <option value="buy">any</option>
-            <option value="buy">Buy</option>
-            <option value="rent">Rent</option>
-          </select>
+          <label htmlFor="city">Location</label>
+          <input
+            type="text"
+            id="city"
+            name="city"
+            placeholder="City Location"
+           
+          />
         </div>
       </div>
       <div className="bottom">
         <div className="item">
-          <label className="Property">Property</label>
-         <select name="property" id="property">
-         <option value="">any</option>
-          <option value="apartement">Apartement</option>
-          <option value="house">House</option>
-          <option value="condo">Condo</option>
-          <option value="Land">Land</option>
-
-         </select>
+          <label htmlFor="type">Type</label>
+          <select
+            name="type"
+            id="type"
+          >
+            <option value="">any</option>
+            <option value="buy">Buy</option>
+            <option value="rent">Rent</option>
+          </select>
         </div>
-
         <div className="item">
-          <label className="minPrice">Min Price</label>
+          <label htmlFor="property">Property</label>
+          <select
+            name="property"
+            id="property"
+          >
+            <option value="">any</option>
+            <option value="apartment">Apartment</option>
+            <option value="house">House</option>
+            <option value="condo">Condo</option>
+            <option value="land">Land</option>
+          </select>
+        </div>
+        <div className="item">
+          <label htmlFor="minPrice">Min Price</label>
           <input
-            type="text"
+            type="number"
             id="minPrice"
             name="minPrice"
-            placeholder="City location"
+            placeholder="any"
           />
         </div>
-
         <div className="item">
-          <label className="city">Max Price</label>
+          <label htmlFor="maxPrice">Max Price</label>
           <input
             type="text"
             id="maxPrice"
@@ -49,22 +62,21 @@ const Filter = () => {
             placeholder="any"
           />
         </div>
-
         <div className="item">
-          <label className="Bedroom">Bedroom</label>
+          <label htmlFor="bedroom">Bedroom</label>
           <input
             type="text"
-            id="Bedroom"
-            name="Bedroom"
+            id="bedroom"
+            name="bedroom"
             placeholder="any"
           />
         </div>
-        <button>
+        <button >
           <img src="/search.png" alt="" />
         </button>
       </div>
     </div>
   );
-};
+}
 
 export default Filter;

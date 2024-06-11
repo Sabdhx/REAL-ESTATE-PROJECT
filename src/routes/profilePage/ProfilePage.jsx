@@ -7,55 +7,55 @@ import { useNavigate } from "react-router-dom";
 import { myContext } from "../../useContext/UserContext";
 
 function ProfilePage() {
-  const { item } = useContext(myContext);
-  const parsedData = JSON.parse(item)
-  useEffect(()=>{
-   console.log(parsedData.userFound.username)
-  },[])
+  const { fetchedData, updateUser } = useContext(myContext);
+  
+  useEffect(() => {
+    console.log(fetchedData);
+  }, [fetchedData]);
+
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
       const response = await axios.get("http://localhost:5000/user/logout");
       console.log(response);
-      localStorage.removeItem("user")
-      
+      updateUser(null);
       navigate("/loginPage");
       window.location.reload();
     } catch (error) {
-      console.log(error.message);
+      console.log("Logout error:", error.message);
     }
   };
+
   return (
     <div className="ProfilePage">
       <div className="details">
         <div className="wrapper">
           <div className="title">
             <h1>User Information</h1>
-            <button>Update Profile</button>
+            <button onClick={() => navigate("/UpdatePage")}>Update Profile</button>
           </div>
           <div className="info">
             <span>
               Avatar:
               <img
-                src="https://hips.hearstapps.com/hmg-prod/images/copy-of-del-social-index-image-2023-07-21t114702-854-64baa8a5cd6d7.png?crop=0.502xw:1.00xh;0,0&resize=640:*"
-                alt=""
+                src={fetchedData.avatar}
+                alt="User Avatar"
               />
             </span>
             <span>
-              Username: <b>{parsedData.userFound.username}</b>
+              Username: <b>{fetchedData?.username}</b>
             </span>
             <span>
-              Email: <b>{parsedData.userFound.email}</b>
+              Email: <b>{fetchedData?.email}</b>
             </span>
-            <button onClick={handleLogout}>logout</button>
+            <button onClick={handleLogout}>Logout</button>
           </div>
           <div className="title">
             <h1>My List</h1>
             <button>Create New Post</button>
           </div>
           <div className="title">
-            {/*<h1>Saved List</h1>*/}
             <List />
           </div>
         </div>

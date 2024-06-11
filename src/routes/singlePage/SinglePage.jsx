@@ -3,12 +3,11 @@ import "./SinglePage.scss";
 import Slider from "../../components/slider/Slider";
 import { singlePost } from "../../data";
 import { myContext } from "../../useContext/UserContext";
-// import  Map  from "../../components/map/Map";
 
 function SinglePage() {
-  console.log(singlePost);
-  const {item}= useContext(myContext)
-  const parsedData = JSON.parse(item)
+  
+  const {fetchedData}= useContext(myContext)
+  
   return (
     <div className="SinglePage">
       <div className="details">
@@ -18,7 +17,6 @@ function SinglePage() {
             <div className="top">
               <div className="post">
                 <h1>{singlePost.title}</h1>
-
                 <div className="address">
                   <img src="/pin.png" alt="" />
                   <span>{singlePost.address}</span>
@@ -30,8 +28,8 @@ function SinglePage() {
                   src="https://hips.hearstapps.com/hmg-prod/images/copy-of-del-social-index-image-2023-07-21t114702-854-64baa8a5cd6d7.png?crop=0.502xw:1.00xh;0,0&resize=640:*"
                   alt=""
                 />{
-                  parsedData ? (
-                    <h3>{parsedData.userFound.username}</h3>
+                  fetchedData ? (
+                    <h3>{fetchedData.userFound}</h3>
                   ):(
                     <h3>unKNown user</h3>
                   )

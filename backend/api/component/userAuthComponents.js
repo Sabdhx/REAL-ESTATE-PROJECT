@@ -11,7 +11,7 @@ export const register = async (req, res) => {
   const salt = await bcrypt.genSalt(10);
 
   try {
-    const hash = await bcrypt.hash(password, salt); // Use the provided password
+    const hash = await bcrypt.hash(password, salt); 
     console.log(hash);
     const user = await Prisma.user.create({
       data: {
@@ -21,9 +21,10 @@ export const register = async (req, res) => {
       },
     });
     const withOutPassword = {
-      id: user.id,
+      id: user._id,
       username: user.username,
       email: user.email,
+      avatar:null
     };
     console.log(user);
     res
@@ -41,7 +42,7 @@ export const login = async (req, res) => {
   try {
     const user = await Prisma.user.findUnique({
       where: {
-        email: email, // Correct syntax
+        email: email,
       },
     });
 
@@ -56,15 +57,14 @@ export const login = async (req, res) => {
     }
 
     
-    const userFound={
+  
+    const token = jwt.sign(
+      {
       username: user.username,
       email: user.email,
       isAdmin: true,
-      id: user._id,
-    }
-    const token = jwt.sign(
-      {
-       userFound
+      id: user.id,
+      avatar:user.avatar
       },
       "secret",
       { expiresIn: "1d" }
@@ -76,7 +76,18 @@ export const login = async (req, res) => {
       expires: new Date(Date.now() + 86400000),
     });
 
-    res.status(200).json({ message:"User logged in successfully", userFound });
+    
+
+
+    res.status(200).json(
+     { 
+      username: user.username,
+      email: user.email,
+      isAdmin: true,
+      id: user.id,
+      avatar:user.avatar
+    }
+    );
   } catch (error) {
     console.log(error.message);
     // res.status(500).json({ message: "Failed to sign in" });

@@ -4,6 +4,9 @@ import userRouter from './Routes/authRoutes.js';
 import cors from "cors"
 import bodyParser from 'body-parser';
 import AdminOrAuthenticatedRouter from "./Routes/userAdminOrNotRoute.js"
+import updateRoute from "./Routes/user.js"
+import PostComponent from "./Routes/PostComponent.js"
+
 
 const app = express();
 const port = 5000;
@@ -23,6 +26,10 @@ console.log("Server is starting...");
 
 app.use('/user', userRouter);
 app.use('/adminOrNot', AdminOrAuthenticatedRouter);
+app.use("/update",updateRoute)
+app.use("/Posts" , PostComponent)
+
+
 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
