@@ -8,7 +8,7 @@ import UploadWidget from "../../components/UploadWidgets/UploadWidgets";
 function UpdatePage() {
   const { fetchedData, updateUser } = useContext(myContext);
   const navigate = useNavigate();
-  const [avatar, setAvatar] = useState(fetchedData.avatar);
+  const [avatar, setAvatar] = useState([]);
   const [username, setUsername] = useState(fetchedData.username);
   const [email, setEmail] = useState(fetchedData.email);
   const [password, setPassword] = useState(""); // Initialize with empty string
@@ -18,7 +18,7 @@ function UpdatePage() {
     e.preventDefault();
 
     const data = {
-      avatar,
+      avatar:avatar[0],
       username,
       email,
       password,
@@ -29,7 +29,7 @@ function UpdatePage() {
 
     try {
       const response = await axios.put(`http://localhost:5000/update/updateOne/${id}`, data);
-      updateUser({ username, email, id, avatar, password });
+      updateUser({ username, email, id, avatar:avatar[0], password });
       navigate("/ProfilePage");
       console.log("Update successful:", response); // Log successful response
     } catch (error) {
@@ -93,7 +93,7 @@ function UpdatePage() {
             maxImageFileSize: 1048576,
             folder: "avatars",
           }}
-          setAvatar={setAvatar}
+          setState={setAvatar}
         />
       </div>
     </div>

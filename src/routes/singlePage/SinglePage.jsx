@@ -1,53 +1,68 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./SinglePage.scss";
 import Slider from "../../components/slider/Slider";
-import { singlePost } from "../../data";
 import { myContext } from "../../useContext/UserContext";
+import axios from "axios";
+import DOMPurify from "dompurify";
+import Map from "../../components/map/Map";
+import { useLoaderData, useParams } from "react-router-dom";
+import { singlePageLoader } from "../../loaders/loaders";
+
 
 function SinglePage() {
+ 
+
   
-  const {fetchedData}= useContext(myContext)
   
+ const {id} = useParams()
+
+  const [post, setPost] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/Posts/"+id
+        );
+        setPost(response.data.findById);
+        // console.log(response);
+      } catch (error) {
+        console.error("Failed to fetch post data:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  if (!post) {
+    return <p>Loading...</p>;
+  }
+
   return (
-    <div className="SinglePage">
+    <div className="singlePage">
       <div className="details">
         <div className="wrapper">
-          <Slider images={singlePost.images} />
+          <Slider images={post.images} />
           <div className="info">
             <div className="top">
               <div className="post">
-                <h1>{singlePost.title}</h1>
+                <h1>{post.title}</h1>
                 <div className="address">
                   <img src="/pin.png" alt="" />
-                  <span>{singlePost.address}</span>
+                  <span>{post.address}</span>
                 </div>
-                <div className="price">${singlePost.price}</div>
+                <div className="price">$ {post.price}</div>
               </div>
               <div className="user">
-                <img
-                  src="https://hips.hearstapps.com/hmg-prod/images/copy-of-del-social-index-image-2023-07-21t114702-854-64baa8a5cd6d7.png?crop=0.502xw:1.00xh;0,0&resize=640:*"
-                  alt=""
-                />{
-                  fetchedData ? (
-                    <h3>{fetchedData.userFound}</h3>
-                  ):(
-                    <h3>unKNown user</h3>
-                  )
-                }
+                <img src={post.user.avatar} alt="" />
+                <span>{post.user.username}</span>
               </div>
             </div>
-            <div className="bottom">
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo
-                quibusdam ea nobis similique. Debitis ullam, saepe minima vel
-                voluptatum blanditiis quisquam dolorem porro tenetur, itaque
-                accusamus ipsa error, nulla illum. Lorem ipsum, dolor sit amet
-                consectetur adipisicing elit. Qui, expedita voluptatibus amet,
-                similique praesentium sit necessitatibus deleniti, sapiente
-                error tempore reprehenderit quasi perferendis vero sint
-                repellendus odit laborum cum minima!
-              </p>
-            </div>
+            <div
+              className="bottom"
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(post.postDetail.desc),
+              }}
+            ></div>
           </div>
         </div>
       </div>
@@ -59,23 +74,29 @@ function SinglePage() {
               <img src="/utility.png" alt="" />
               <div className="featureText">
                 <span>Utilities</span>
-                <p>Renter is responsible</p>
+                {post.postDetail.utilities === "owner" ? (
+                  <p>Owner is responsible</p>
+                ) : (
+                  <p>Tenant is responsible</p>
+                )}
               </div>
             </div>
-
             <div className="feature">
               <img src="/pet.png" alt="" />
               <div className="featureText">
-                <span>pet Policy</span>
-                <p>Pet Allowed</p>
+                <span>Pet Policy</span>
+                {post.postDetail.pet === "allowed" ? (
+                  <p>Pets Allowed</p>
+                ) : (
+                  <p>Pets not Allowed</p>
+                )}
               </div>
             </div>
-
             <div className="feature">
               <img src="/fee.png" alt="" />
               <div className="featureText">
-                <span>Property Fee</span>
-                <p>Must have 3x the rent in total houseHold income</p>
+                <span>Income Policy</span>
+                <p>{post.postDetail.income}</p>
               </div>
             </div>
           </div>
@@ -83,60 +104,63 @@ function SinglePage() {
           <div className="sizes">
             <div className="size">
               <img src="/size.png" alt="" />
-              <span>80 sqrft</span>
+              <span>{post.postDetail.size} sqft</span>
             </div>
-
             <div className="size">
               <img src="/bed.png" alt="" />
-              <span>2 bed</span>
+              <span>{post.bedroom} beds</span>
             </div>
-
             <div className="size">
               <img src="/bath.png" alt="" />
-              <span>1 bathroom</span>
+              <span>{post.bathroom} bathroom</span>
             </div>
           </div>
           <p className="title">Nearby Places</p>
-          <div className="listHorizantal">
-
-          <div className="feature">
+          <div className="listHorizontal">
+            <div className="feature">
               <img src="/school.png" alt="" />
               <div className="featureText">
                 <span>School</span>
-                <p>250m away</p>
+                <p>
+                  {post.postDetail.school > 999
+                    ? post.postDetail.school / 1000 + "km"
+                    : post.postDetail.school + "m"}{" "}
+                  away
+                </p>
               </div>
             </div>
-            
             <div className="feature">
-              <img src="/bus.png" alt="" />
+              <img src="/pet.png" alt="" />
               <div className="featureText">
-                <span>Bus stop</span>
-                <p>100m away</p>
+                <span>Bus Stop</span>
+                <p>{post.postDetail.bus}m away</p>
               </div>
             </div>
-
             <div className="feature">
-              <img src="/bus.png" alt="" />
+              <img src="/fee.png" alt="" />
               <div className="featureText">
-                <span>Restraunt</span>
-                <p>200m away</p>
+                <span>Restaurant</span>
+                <p>{post.postDetail.restaurant}m away</p>
               </div>
             </div>
           </div>
-
-          <p className="title">location</p>
+          <p className="title">Location</p>
           <div className="mapContainer">
-            {/* <Map/> */}
+            <Map items={[post]} />
           </div>
           <div className="buttons">
             <button>
-              <img src="./chat.png" alt="" />
-              Send a message
+              <img src="/chat.png" alt="" />
+              Send a Message
             </button>
-
-            <button>
-              <img src="./save.png" alt="" />
-              Save the Place
+            <button
+            // onClick={handleSave}
+            // style={{
+            //   backgroundColor: saved ? "#fece51" : "white",
+            // }}
+            >
+              <img src="/save.png" alt="" />
+              {/* {saved ? "Place Saved" : "Save the Place"} */}
             </button>
           </div>
         </div>

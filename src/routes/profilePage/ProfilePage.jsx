@@ -9,10 +9,7 @@ import { myContext } from "../../useContext/UserContext";
 function ProfilePage() {
   const { fetchedData, updateUser } = useContext(myContext);
   
-  useEffect(() => {
-    console.log(fetchedData);
-  }, [fetchedData]);
-
+  
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -53,7 +50,7 @@ function ProfilePage() {
           </div>
           <div className="title">
             <h1>My List</h1>
-            <button>Create New Post</button>
+            <button onClick={()=>navigate("/PostUploadForm")}>Create New Post</button>
           </div>
           <div className="title">
             <List />

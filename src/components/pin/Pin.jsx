@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import "./Pin.scss"
 
 function Pin({item}) {
-  console.log(item)
+  
 
   return (
 

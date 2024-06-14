@@ -1,7 +1,7 @@
 import Navbar from "./components/navbar/Navbar";
 import "./layout.scss";
 import HomePage from "./routes/homePage/HomePage";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter ,Router,  Routes, Route } from "react-router-dom";
 import SinglePage from "./routes/singlePage/SinglePage";
 import ListPage from "./routes/listPage/ListPage";
 import ProfilePage from "./routes/profilePage/ProfilePage";
@@ -12,13 +12,17 @@ import { useContext } from "react";
 import { myContext } from "./useContext/UserContext";
 import UserNotFound from "./components/UserNotFound/UserNotFound";
 import UpdatePage from "./routes/UpdatePage/UpdatePage";
+import PostUploadForm from "./routes/postUploadFrom/PostUploadForm";
+import { singlePageLoader } from "./loaders/loaders";
+
 axios.defaults.withCredentials=true
 
 function App() {
   const {fetchedData} = useContext(myContext)
 
   return (
-    <Router>
+    <BrowserRouter>
+   
       <div className="layout">
        <div className="navbar">
          <Navbar />
@@ -29,17 +33,23 @@ function App() {
        <HomePage />
     </div>} />
    
-        <Route path="/Listpage" element={<ListPage/>} />        
-        <Route path="/ProfilePage/singlePage/:id" element={<SinglePage />} />
+        <Route path="/Listpage" element={<ListPage/>} />  
+
+        <Route path="/ListPage/singlePage/:id" 
+        element={<SinglePage />}
+        
+        />
         {
           fetchedData ? (
             <Route path="/ProfilePage" element={<ProfilePage />} />
+
+          
           ):(
             <Route path="/LoginPage" element={<LoginPage />} />
           )
         }
         <Route path="/ProfilePage" element={<ProfilePage />} />
-        
+        <Route path="/PostUploadForm" element={<PostUploadForm/>} />
         <Route path="/Register" element={<Register />} />
         <Route path="/UpdatePage" element={<UpdatePage/>} />
 
@@ -47,8 +57,8 @@ function App() {
 
       </Routes>
       </div>
-    </Router>
-     
+  
+    </BrowserRouter>
   );
 }
 

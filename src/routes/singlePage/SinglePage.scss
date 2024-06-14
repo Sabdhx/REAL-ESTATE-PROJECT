@@ -1,35 +1,47 @@
 @import "/src/responsive.scss";
 
 
-.SinglePage {
+
+.singlePage {
   display: flex;
   height: 100%;
 
-
-  @include md{
+  @include md {
     flex-direction: column;
-  overflow: scroll;
-  margin: 20px;
+    overflow: scroll;
   }
-    
+
   .details {
     flex: 3;
     height: 100%;
-  
+    overflow-y: scroll;
 
-    @include md{
-      flex:none;
+    @include md {
+      flex: none;
       height: max-content;
+      margin-bottom: 50px;
     }
 
     .wrapper {
       padding-right: 50px;
 
+      @include lg {
+        padding-right: 20px;
+      }
+      @include md {
+        padding-right: 0px;
+      }
+
       .info {
-        margin-top: 30px;
+        margin-top: 50px;
         .top {
           display: flex;
           justify-content: space-between;
+
+          @include sm {
+            flex-direction: column;
+            gap: 20px;
+          }
 
           .post {
             display: flex;
@@ -37,45 +49,42 @@
             gap: 20px;
             h1 {
               font-weight: 400;
-              // Add styles for the title
             }
-
             .address {
               display: flex;
-              align-items: center;
               gap: 5px;
+              align-items: center;
               color: #888;
               font-size: 14px;
 
               img {
-                height: 14px;
-                width: 14px;
-              }
-
-              span {
-                // Add styles for the address text
+                width: 16px;
+                height: 16px;
               }
             }
-
             .price {
               padding: 5px;
               background-color: rgba(254, 205, 81, 0.438);
-              width: max-content;
               border-radius: 5px;
+              width: max-content;
               font-size: 20px;
               font-weight: 300;
             }
           }
-
           .user {
             display: flex;
-            align-items: center;
             flex-direction: column;
+            align-items: center;
             justify-content: center;
             gap: 20px;
-            border-radius: 10px;
             padding: 0px 50px;
+            border-radius: 10px;
             background-color: rgba(254, 205, 81, 0.209);
+            font-weight: 600;
+
+            @include sm {
+              padding: 20px 50px;
+            }
 
             img {
               width: 50px;
@@ -83,54 +92,49 @@
               border-radius: 50%;
               object-fit: cover;
             }
-
-            h1 {
-              margin-left: 10px;
-              // Add styles for the user name
-            }
           }
         }
-
         .bottom {
           margin-top: 50px;
           color: #555;
           line-height: 20px;
-
-          
         }
       }
     }
   }
-
   .features {
     flex: 2;
     background-color: #fcf5f3;
+    height: 100%;
+    overflow-y: scroll;
 
-    // height: 100%;
-    // overflow-y:scroll ;
-
-
-    @include md{
-      flex:none;
+    @include md {
+      flex: none;
       height: max-content;
-      margin-top: 30px;
-      margin-bottom: 30px;
+      margin-bottom: 50px;
     }
 
     .wrapper {
-      padding: 0 20px;
+      padding: 0px 20px;
       display: flex;
       flex-direction: column;
       gap: 20px;
+
+      @include md {
+        padding: 20px;
+      }
+
       img {
         width: 24px;
         height: 24px;
       }
+
       .title {
         font-weight: bold;
         font-size: 18px;
         margin-bottom: 10px;
       }
+
       .feature {
         display: flex;
         align-items: center;
@@ -139,6 +143,7 @@
         img {
           background-color: rgba(254, 205, 81, 0.209);
         }
+
         .featureText {
           span {
             font-weight: bold;
@@ -157,21 +162,21 @@
         background-color: white;
         border-radius: 10px;
       }
-      .listHorizantal {
+      .listHorizontal {
         display: flex;
         justify-content: space-between;
         padding: 20px 10px;
         background-color: white;
         border-radius: 10px;
       }
+
       .sizes {
         display: flex;
         justify-content: space-between;
 
-
-      @include lg{
-        font-size: 12px;
-      }
+        @include lg {
+          font-size: 12px;
+        }
 
         .size {
           display: flex;
@@ -182,10 +187,12 @@
           border-radius: 5px;
         }
       }
+
       .mapContainer {
         width: 100%;
         height: 200px;
       }
+
       .buttons {
         display: flex;
         justify-content: space-between;
@@ -196,10 +203,11 @@
           align-items: center;
           gap: 5px;
           background-color: white;
-          border:1px solid #fece51 ;
+          border: 1px solid #fece51;
           border-radius: 5px;
           cursor: pointer;
-          img{
+
+          img {
             width: 16px;
             height: 16px;
           }

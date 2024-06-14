@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Card.scss";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 export const Card=({item})=> {
+  
   return (
-   <div className="Card">
+   <div className="Card"  >
     <Link to={`singlePage/${item.id}`} className="imageContainer">
-      <img src={item.image} alt="" />
+      <img src={item.images[0]} alt="" />
     </Link>
     <div className="textContainer">
     <h2 className="title">
