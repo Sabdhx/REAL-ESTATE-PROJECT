@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import './HomePage.scss'; // Make sure to import your CSS file if it's external
 import SearchBar from '../searchBar/SearchBar';
+import { myContext } from '../../useContext/UserContext';
 
 function HomePage() {
   return (

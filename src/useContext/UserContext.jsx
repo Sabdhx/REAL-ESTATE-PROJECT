@@ -6,6 +6,8 @@ function UserContext({ children }) {
   const [fetchedData, setFetchedData] = useState(() => {
     const storedUser = localStorage.getItem('user');
     return storedUser ? JSON.parse(storedUser) : null});
+   const [lenght,setLenght] =useState(null)
+
 
   const updateUser = (data) => {
     setFetchedData(data);
@@ -20,7 +22,7 @@ function UserContext({ children }) {
   }, []);
 
   return (
-    <myContext.Provider value={{ fetchedData, updateUser }}>
+    <myContext.Provider value={{ fetchedData, updateUser ,lenght,setLenght}}>
       {children}
     </myContext.Provider>
   );

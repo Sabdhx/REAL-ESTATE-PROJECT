@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
-import "./searchBar.scss"
-
+import "./searchBar.scss";
+import { useNavigate } from "react-router-dom";
+import { myContext } from '../../useContext/UserContext';
 const SearchBar = () => {
+  const navigate = useNavigate();
+  const {setLenght,lenght} =  useContext(myContext)
+
   const array = ["buy", "rent"];
   const [query, setQuery] = useState({
     type: "buy",
@@ -17,17 +21,20 @@ const SearchBar = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const url = new URL(window.location.origin +"/listPage");
-    url.search = new URLSearchParams(query).toString();
-    console.log(url.toString());
+
     try {
-      const postData = await axios.post("http://localhost:5000/Posts", query); 
-      console.log(postData);
+      const response = await axios.get(`http://localhost:5000/Posts`, {
+        params: query,
+      });
+      setLenght(response.data.posts);
+      console.log(lenght)
+      // Navigate to the list page using React Router
+      navigate(
+        `/listPage`
+      );
     } catch (error) {
       console.error(error);
     }
-    
-    window.location.href = url;
   };
 
   return (

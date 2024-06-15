@@ -3,26 +3,25 @@ import Prisma from "../lib/prisma.js"
 
 
 export const getAllPosts = async (req, res) => {
-  // const query = req.query;
-  // console.log(query)
+  console.log(req.query); // Add this line
+  const { location, type, property, bedroom, minPrice, maxPrice } = req.query;
   try {
-    const posts = await Prisma.post.findMany({
-
-      // where:{
-      //   city:query.city || undefined,
-      //   type:query.type||undefined,
-      //   property:query.property||undefined,
-      //   bedroom:query.bedroom||undefined,
-      //   price:{
-      //     gte:parseInt(query.minPrice)||0,
-      //     lte:parseInt(query.maxPrice)||100000,
-      //   }
-      // }
-    });
-    res.status(200).json({ message: "Posts retrieved successfully", posts});
+      const posts = await Prisma.post.findMany({
+          where: {
+              city: location || undefined,
+              type: type || undefined,
+              property: property || undefined,
+              bedroom: bedroom ? parseInt(bedroom) : undefined,
+              price: {
+                  gte: minPrice ? parseInt(minPrice) : 0,
+                  lte: maxPrice ? parseInt(maxPrice) : 1000000,
+              }
+          }
+      });
+      res.status(200).json({ message: "Posts retrieved successfully", posts });
   } catch (error) {
-    console.error("Prisma Client Error:", error.message);
-    res.status(500).json({ error: "Internal Server Error" });
+      console.error("Prisma Client Error:", error.message);
+      res.status(500).json({ error: "Internal Server Error" });
   }
 };
 export const getPost = async (req, res) => {
@@ -56,9 +55,12 @@ export const getPost = async (req, res) => {
 export const addPost = async (req, res) => {
   const body = req.body;
   const tokenUserId = req.userId;
- 
+
+  console.log("Received body:", body);
+  console.log("Token User ID:", tokenUserId);
+
   try {
-    console.log("first")
+    console.log("first");
     const newPost = await Prisma.post.create({
       data: {
         ...body.postData,
@@ -68,7 +70,7 @@ export const addPost = async (req, res) => {
         },
       },
     });
-    console.log("second")
+    console.log("second");
     res.status(200).json(newPost);
   } catch (err) {
     console.log(err);

@@ -16,38 +16,44 @@ function  PostUploadForm () {
     e.preventDefault();
     const formData = new FormData(e.target);
     const input = Object.fromEntries(formData);
-        
+
+    
+    const postData = {
+      title: input.title,
+      price: parseInt(input.price),
+      address: input.address,
+      city: input.city,
+      bedroom: parseInt(input.bedroom),
+      bathroom: parseInt(input.bathroom),
+      type: input.type,
+      property: input.property,
+      latitude: input.latitude,
+      longitude: input.longitude,
+      images: image
+    };
+  
+    const postDetail = {
+      desc: value,
+      utilities: input.utilities,
+      pet: input.pet,
+      income: input.income,
+      size: parseInt(input.size),
+      school: parseInt(input.school),
+      bus: parseInt(input.bus),
+      restaurant: parseInt(input.restaurant)
+    };
+    
+
+
+
     try {
       const response = await axios.post("http://localhost:5000/Posts/addPost", {
-       postData:{
-         title:input.title,
-         price:parseInt(input.price),
-         address:input.address,
-         city:input.city,
-         bedroom:parseInt(input.bedroom),
-         bathroom:parseInt(input.bathroom),
-         type:input.type,
-         property:input.property,
-         latitude:input.latitude,
-         longitude:input.longitude,
-         images:image
-        },
-        postDetail:{
-          desc:value,
-          utilities:input.utilities,
-          pet:input.pet,
-          income:input.income,
-          size:parseInt(input.size),
-          school:parseInt(input.school),
-          bus:parseInt(input.bus),
-          restaurant:parseInt(input.restaurant)
-        },
-      }
-      );
-      navigate(`/ProfilePage/singlePage/${response.data.id}`)
+        postData,
+        postDetail
+      });
       console.log(response.data);
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
       setError("Failed to create post");
     }
   };
