@@ -30,7 +30,7 @@ const SearchBar = () => {
       console.log(lenght)
       // Navigate to the list page using React Router
       navigate(
-        `/listPage`
+        `/listPage?type=${query.type}&location=${query.location}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}`
       );
     } catch (error) {
       console.error(error);

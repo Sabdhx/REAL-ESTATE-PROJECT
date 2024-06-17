@@ -53,7 +53,7 @@ function ProfilePage() {
             <button onClick={()=>navigate("/PostUploadForm")}>Create New Post</button>
           </div>
           <div className="title">
-            <List />
+            <List/>
           </div>
         </div>
       </div>

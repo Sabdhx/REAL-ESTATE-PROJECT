@@ -18,7 +18,10 @@ export const getAllPosts = async (req, res) => {
               }
           }
       });
-      res.status(200).json({ message: "Posts retrieved successfully", posts });
+      setTimeout(() => {
+        res.status(200).json({ message: "Posts retrieved successfully", posts });
+      }, 1000);
+      
   } catch (error) {
       console.error("Prisma Client Error:", error.message);
       res.status(500).json({ error: "Internal Server Error" });
