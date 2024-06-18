@@ -1,11 +1,17 @@
-import React, { useState, useEffect } from "react";
+// Example of how you might handle filtering and searching based on query parameters
+
+import React, { useState, useEffect, useContext } from "react";
 import "./Filter.scss";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import axios from "axios";
+import { myContext } from "../../useContext/UserContext";
 
 const Filter = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const {lenght,setLenght} = useContext(myContext)
+  const navigate = useNavigate()
 
-  // Example of getting a specific query parameter
+
   const cityParam = searchParams.get("location") || "";
   const typeParam = searchParams.get("type") || "";
   const propertyParam = searchParams.get("property") || "";
@@ -22,6 +28,8 @@ const Filter = () => {
     bedroom: bedroomParam,
   });
 
+  const [filteredData, setFilteredData] = useState([]);
+
   useEffect(() => {
     setFormValues({
       city: cityParam,
@@ -31,7 +39,18 @@ const Filter = () => {
       maxPrice: maxPriceParam,
       bedroom: bedroomParam,
     });
-  }, [cityParam, typeParam, propertyParam, minPriceParam, maxPriceParam, bedroomParam]);
+  }, [
+    cityParam,
+    typeParam,
+    propertyParam,
+    minPriceParam,
+    maxPriceParam,
+    bedroomParam,
+  ]);
+
+  useEffect(() => {
+    filterData();
+  }, [searchParams]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -44,8 +63,59 @@ const Filter = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setSearchParams(formValues);
-    console.log(searchParams)
   };
+
+  const filterData = () => {
+    const data = [
+      {
+        id: 1,
+        city: "New York",
+        type: "buy",
+        property: "apartment",
+        price: 5000,
+        bedroom: 2,
+      },
+      {
+        id: 2,
+        city: "Los Angeles",
+        type: "rent",
+        property: "house",
+        price: 3000,
+        bedroom: 3,
+      },
+    ];
+
+    const filtered = data.filter((item) => {
+      return (
+        (formValues.city === "" ||
+          item.city.toLowerCase().includes(formValues.city.toLowerCase())) &&
+        (formValues.type === "" || item.type === formValues.type) &&
+        (formValues.property === "" || item.property === formValues.property) &&
+        (formValues.minPrice === "" || item.price >= formValues.minPrice) &&
+        (formValues.maxPrice === "" || item.price <= formValues.maxPrice) &&
+        (formValues.bedroom === "" || item.bedroom >= formValues.bedroom)
+      );
+    });
+
+    setFilteredData(filtered);
+  };
+
+  const handleSearch=async()=>{
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/Posts?type=${typeParam}&location=${cityParam}&minPrice=${minPriceParam}&maxPrice=${maxPriceParam}&bedroom=${bedroom}`
+        );
+
+        // navigate( `Posts?type=${typeParam}&location=${cityParam}&minPrice=${minPriceParam}&maxPrice=${maxPriceParam}&bedroom=${bedroom}`)
+
+        setLenght(response.data.posts);
+        console.log(lenght)
+      } catch (error) {
+        console.log(error)
+      }
+  }
+
+
 
   return (
     <div className="filter">
@@ -129,10 +199,12 @@ const Filter = () => {
             />
           </div>
           <button type="submit">
-            <img src="/search.png" alt="Search" />
+            <img src="/search.png"
+            onClick={()=>handleSearch}
+            alt="Search" />
           </button>
         </div>
-      </form>
+      </form>   
     </div>
   );
 };

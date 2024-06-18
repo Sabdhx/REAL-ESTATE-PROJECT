@@ -1,12 +1,14 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
 import "./searchBar.scss";
-import { useNavigate } from "react-router-dom";
-import { myContext } from '../../useContext/UserContext';
+import { useLocation, useNavigate } from "react-router-dom";
+import { myContext } from "../../useContext/UserContext";
+
 const SearchBar = () => {
   const navigate = useNavigate();
-  const {setLenght,lenght} =  useContext(myContext)
-
+  const { setLenght, lenght } = useContext(myContext);
+  const location = useLocation()
+  // const [searchTerm, setSearchTerm] = useState([]);
   const array = ["buy", "rent"];
   const [query, setQuery] = useState({
     type: "buy",
@@ -21,16 +23,16 @@ const SearchBar = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log("Query Parameters:", query); 
     try {
-      const response = await axios.get(`http://localhost:5000/Posts`, {
-        params: query,
-      });
+      const response = await axios.get(
+        `http://localhost:5000/Posts?type=${query.type}&location=${query.location}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}`
+      );
       setLenght(response.data.posts);
-      console.log(lenght)
-      // Navigate to the list page using React Router
+      console.log("Response Data:", response.data.posts); 
+      console.log("Length:", lenght); 
       navigate(
-        `/listPage?type=${query.type}&location=${query.location}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}`
+        `/listPage/?type=${query.type}&location=${query.location}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}`
       );
     } catch (error) {
       console.error(error);
@@ -63,7 +65,9 @@ const SearchBar = () => {
           placeholder="Min price"
           min={0}
           max={1000000}
-          onChange={(e) => setQuery({ ...query, minPrice: parseInt(e.target.value) })}
+          onChange={(e) =>
+            setQuery({ ...query, minPrice: parseInt(e.target.value) })
+          }
         />
         <input
           type="number"
@@ -71,7 +75,9 @@ const SearchBar = () => {
           placeholder="Max price"
           min={0}
           max={1000000}
-          onChange={(e) => setQuery({ ...query, maxPrice: parseInt(e.target.value) })}
+          onChange={(e) =>
+            setQuery({ ...query, maxPrice: parseInt(e.target.value) })
+          }
         />
         <button type="submit">
           <img src="/search.png" alt="" />
