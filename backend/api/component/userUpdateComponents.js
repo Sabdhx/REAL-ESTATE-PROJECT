@@ -31,7 +31,7 @@ export const updateOne = async (req, res) => {
     const { username, email, password, avatar } = req.body;
     const { id } = req.params.id;
     const tokenId = req.userId;
-    console.log(req.body)
+    console.log(req.body);
     if (id !== tokenId) {
       return res.status(403).json({ message: "Unauthorized access" });
     }
@@ -40,11 +40,11 @@ export const updateOne = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-console.log("two")
-const salt = await bcrypt.genSalt(10);
-const hash = await bcrypt.hash(password, salt);
+    console.log("two");
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(password, salt);
 
-console.log("three")
+    console.log("three");
     const updatedUser = await Prisma.user.update({
       where: { id },
       data: { username, email, password: hash, avatar },
@@ -71,3 +71,8 @@ export const deleteOne = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+
+export const savedPost = (req,res) => {
+  res.send("there is the reaosn") 
+ };

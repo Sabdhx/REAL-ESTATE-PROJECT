@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState, Suspense, lazy } from "react";
 import "./ListPage.scss";
 import { Card } from "../../components/card/Card";
-import { data } from "../../data";
 import axios from "axios";
 import { myContext } from "../../useContext/UserContext";
+import { data } from "../../data";
+import { useLocation } from "react-router-dom";
 
 // Lazy load the Filter and Map components
 const Filter = lazy(() => import("../../components/filter/Filter"));
@@ -13,26 +14,39 @@ const Map = lazy(() => import("../../components/map/Map"));
 const Loading = () => <div>Loading...</div>;
 
 const ListPage = () => {
-  const { lenght } = useContext(myContext);
-  console.log(lenght);
-
   const [state, setState] = useState([]);
-  const [loading, setLoading] = useState(true); // State to track loading status
+  const [loading, setLoading] = useState(true);
+  
+  const location = useLocation();
 
   useEffect(() => {
-    const fetchingData = async () => {
-      try {
-        const response = await axios.get("http://localhost:5000/Posts");
-        setState(response.data.posts);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false); // Set loading to false after data is fetched
-      }
-    };
+    const params = new URLSearchParams(location.search);
+    const type = params.get('type') || "";
+    const city = params.get('location') || "";
+    const minPrice = params.get('minPrice') || "";
+    const maxPrice = params.get('maxPrice') || "";
+    const bedroom = params.get('bedroom') || "";
+    fetchData(type, city, minPrice, maxPrice, bedroom);
+  }, [location]);
 
-    fetchingData();
-  }, []);
+  const fetchData = async (type, city, minPrice, maxPrice, bedroom) => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`http://localhost:5000/Posts`, {
+        params: {
+          type: type || undefined,
+          location: city || undefined,
+          minPrice: minPrice || undefined,
+          maxPrice: maxPrice || undefined,
+          bedroom: bedroom || undefined,
+        },
+      });
+      setState(response.data.posts);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+    setLoading(false);
+  };
 
   return (
     <div className="ListPage">
@@ -46,14 +60,12 @@ const ListPage = () => {
           {loading ? (
             <Loading />
           ) : (
-            (lenght !== null
-              ? lenght.map((item) => <Card key={item.id} item={item} />)
-              : state.map((item) => <Card key={item.id} item={item} />))
+            state.map((item) => <Card key={item.id} item={item} />)
           )}
         </div>
         <div className="mapContainer">
           <Suspense fallback={<div>Loading Map...</div>}>
-            <Map items={data} />
+            <Map items={state} />
           </Suspense>
         </div>
       </div>

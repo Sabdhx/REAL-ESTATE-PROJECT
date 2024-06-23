@@ -4,7 +4,7 @@ import userRouter from './Routes/authRoutes.js';
 import cors from "cors"
 import bodyParser from 'body-parser';
 import AdminOrAuthenticatedRouter from "./Routes/userAdminOrNotRoute.js"
-import updateRoute from "./Routes/user.js"
+import updateRoute from "./Routes/userUpdate.js"
 import PostComponent from "./Routes/PostComponent.js"
 
 

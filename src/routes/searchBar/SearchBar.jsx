@@ -1,14 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import "./searchBar.scss";
-import { useLocation, useNavigate } from "react-router-dom";
-import { myContext } from "../../useContext/UserContext";
+import { Link, useNavigate } from "react-router-dom";
 
 const SearchBar = () => {
   const navigate = useNavigate();
-  const { setLenght, lenght } = useContext(myContext);
-  const location = useLocation()
-  // const [searchTerm, setSearchTerm] = useState([]);
   const array = ["buy", "rent"];
   const [query, setQuery] = useState({
     type: "buy",
@@ -21,22 +17,11 @@ const SearchBar = () => {
     setQuery((prev) => ({ ...prev, type: value }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log("Query Parameters:", query); 
-    try {
-      const response = await axios.get(
-        `http://localhost:5000/Posts?type=${query.type}&location=${query.location}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}`
-      );
-      setLenght(response.data.posts);
-      console.log("Response Data:", response.data.posts); 
-      console.log("Length:", lenght); 
-      navigate(
-        `/listPage/?type=${query.type}&location=${query.location}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}`
-      );
-    } catch (error) {
-      console.error(error);
-    }
+  
+
+  const createQueryString = () => {
+    const params = new URLSearchParams(query);
+    return `/ListPage?${params.toString()}`;
   };
 
   return (
@@ -52,7 +37,7 @@ const SearchBar = () => {
           </button>
         ))}
       </div>
-      <form onSubmit={handleSubmit}>
+      <form >
         <input
           type="text"
           onChange={(e) => setQuery({ ...query, location: e.target.value })}
@@ -79,9 +64,13 @@ const SearchBar = () => {
             setQuery({ ...query, maxPrice: parseInt(e.target.value) })
           }
         />
+        <Link to={createQueryString()}>
+        
         <button type="submit">
           <img src="/search.png" alt="" />
         </button>
+        </Link>
+       
       </form>
     </div>
   );

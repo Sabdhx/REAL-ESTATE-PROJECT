@@ -1,23 +1,21 @@
-// Example of how you might handle filtering and searching based on query parameters
-
 import React, { useState, useEffect, useContext } from "react";
 import "./Filter.scss";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { myContext } from "../../useContext/UserContext";
 
 const Filter = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const {lenght,setLenght} = useContext(myContext)
-  const navigate = useNavigate()
+  const location = useLocation();
+  const navigate = useNavigate();
 
+  const params = new URLSearchParams(location.search);
 
-  const cityParam = searchParams.get("location") || "";
-  const typeParam = searchParams.get("type") || "";
-  const propertyParam = searchParams.get("property") || "";
-  const minPriceParam = searchParams.get("minPrice") || 0;
-  const maxPriceParam = searchParams.get("maxPrice") || 10000;
-  const bedroomParam = searchParams.get("bedroom") || 1;
+  const cityParam = params.get("location") || "";
+  const typeParam = params.get("type") || "";
+  const propertyParam = params.get("property") || "";
+  const minPriceParam = params.get("minPrice") || 0;
+  const maxPriceParam = params.get("maxPrice") || 10000;
+  const bedroomParam = params.get("bedroom") || 1;
 
   const [formValues, setFormValues] = useState({
     city: cityParam,
@@ -50,7 +48,7 @@ const Filter = () => {
 
   useEffect(() => {
     filterData();
-  }, [searchParams]);
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -60,9 +58,13 @@ const Filter = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSearchParams(formValues);
+    const response = await axios.get(`http://localhost:5000/Posts?type=${formValues.type}&location=${formValues.city}&minPrice=${formValues.minPrice}&maxPrice=${formValues.maxPrice}`);
+
+    navigate(`?type=${formValues.type}&location=${formValues.city}&minPrice=${formValues.minPrice}&maxPrice=${formValues.maxPrice}&bedroom=${formValues.bedroom}`);
+
+    setFilteredData(response.data.posts);
   };
 
   const filterData = () => {
@@ -99,23 +101,6 @@ const Filter = () => {
 
     setFilteredData(filtered);
   };
-
-  const handleSearch=async()=>{
-      try {
-        const response = await axios.get(
-          `http://localhost:5000/Posts?type=${typeParam}&location=${cityParam}&minPrice=${minPriceParam}&maxPrice=${maxPriceParam}&bedroom=${bedroom}`
-        );
-
-        // navigate( `Posts?type=${typeParam}&location=${cityParam}&minPrice=${minPriceParam}&maxPrice=${maxPriceParam}&bedroom=${bedroom}`)
-
-        setLenght(response.data.posts);
-        console.log(lenght)
-      } catch (error) {
-        console.log(error)
-      }
-  }
-
-
 
   return (
     <div className="filter">
@@ -198,13 +183,12 @@ const Filter = () => {
               onChange={handleInputChange}
             />
           </div>
+
           <button type="submit">
-            <img src="/search.png"
-            onClick={()=>handleSearch}
-            alt="Search" />
+            <img src="/search.png" alt="Search" />
           </button>
         </div>
-      </form>   
+      </form>
     </div>
   );
 };

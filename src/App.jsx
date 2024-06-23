@@ -13,7 +13,6 @@ import { myContext } from "./useContext/UserContext";
 import UserNotFound from "./components/UserNotFound/UserNotFound";
 import UpdatePage from "./routes/UpdatePage/UpdatePage";
 import PostUploadForm from "./routes/postUploadFrom/PostUploadForm";
-import { singlePageLoader } from "./loaders/loaders";
 
 axios.defaults.withCredentials=true
 
