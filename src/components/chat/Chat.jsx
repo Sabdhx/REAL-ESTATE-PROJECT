@@ -42,6 +42,7 @@ function Chat() {
     const data = new FormData(e.target);
     const text = data.get("text"); 
     console.log(text);
+    if(!text) return;
     try {
         const response = await axios.post(`http://localhost:5000/message/${chatBox.id}`, { text });
         setChat((prev) => ({ ...prev, messages: [...(prev?.messages || []), response.data] }));

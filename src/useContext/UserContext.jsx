@@ -14,12 +14,12 @@ function UserContext({ children }) {
     localStorage.setItem('user', JSON.stringify(data));
   };
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setFetchedData(JSON.parse(storedUser));
-    }
-  }, []);
+  // useEffect(() => {
+  //   const storedUser = localStorage.getItem('user');
+  //   if (storedUser) {
+  //     setFetchedData(JSON.parse(storedUser));
+  //   }
+  // }, []);
 
   return (
     <myContext.Provider value={{ fetchedData, updateUser ,lenght,setLenght}}>
