@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import List from "../../components/List/List";
 import "./ProfilePage.scss";
 import Chat from "../../components/chat/Chat";
@@ -9,6 +9,9 @@ import { myContext } from "../../useContext/UserContext";
 function ProfilePage() {
   const { fetchedData, updateUser } = useContext(myContext);
   
+  const [loading,setLoading] = useState(false)
+  
+
   
   const navigate = useNavigate();
 

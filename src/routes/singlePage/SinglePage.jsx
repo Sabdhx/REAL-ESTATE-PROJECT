@@ -6,32 +6,42 @@ import axios from "axios";
 import DOMPurify from "dompurify";
 import Map from "../../components/map/Map";
 import { useLoaderData, useParams } from "react-router-dom";
-import { singlePageLoader } from "../../loaders/loaders";
-
 
 function SinglePage() {
- 
-
-  
-  
- const {id} = useParams()
-
+  const { id } = useParams();
   const [post, setPost] = useState(null);
+  const [saved, setSaved] = useState(null);
 
+  const savedPost = async () => {
+    try {
+      console.log("first");
+      // console.log("Sending postId:", post.id); 
+      const response = await axios.post(
+        "http://localhost:5000/update/savePost/",
+        { postId: post.id }
+      );
+      console.log(response);
+      console.log("second");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  console.log("third");
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:5000/Posts/"+id
-        );
-        setPost(response.data.findById);
-        // console.log(response);
+        const response = await axios.get(`http://localhost:5000/Posts/${id}`);
+        if (response.data) {
+          setPost(response.data);
+        } else {
+          console.error("Post data not found in response:", response.data);
+        }
       } catch (error) {
-        console.error("Failed to fetch post data:", error);
+        console.log(error.message);
       }
     };
     fetchData();
-  }, []);
+  }, [id]);
 
   if (!post) {
     return <p>Loading...</p>;
@@ -150,17 +160,10 @@ function SinglePage() {
           </div>
           <div className="buttons">
             <button>
-              <img src="/chat.png" alt="" />
-              Send a Message
+              <img src="/chat.png" alt="" /> Send a Message
             </button>
-            <button
-            // onClick={handleSave}
-            // style={{
-            //   backgroundColor: saved ? "#fece51" : "white",
-            // }}
-            >
+            <button onClick={savedPost}>
               <img src="/save.png" alt="" />
-              {/* {saved ? "Place Saved" : "Save the Place"} */}
             </button>
           </div>
         </div>

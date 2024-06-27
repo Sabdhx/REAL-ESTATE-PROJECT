@@ -6,7 +6,9 @@ import bodyParser from 'body-parser';
 import AdminOrAuthenticatedRouter from "./Routes/userAdminOrNotRoute.js"
 import updateRoute from "./Routes/userUpdate.js"
 import PostComponent from "./Routes/PostComponent.js"
-
+import chat from "./Routes/chatRoute.js"
+import message from "./Routes/MessageRoute.js"
+ 
 
 const app = express();
 const port = 5000;
@@ -24,12 +26,16 @@ app.use(
 
 console.log("Server is starting...");
 
+
+
+
+
 app.use('/user', userRouter);
 app.use('/adminOrNot', AdminOrAuthenticatedRouter);
 app.use("/update",updateRoute)
 app.use("/Posts" , PostComponent)
-
-
+app.use("/chats" , chat)
+app.use("/message",message)
 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
