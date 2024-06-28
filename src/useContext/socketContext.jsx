@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
-export const myContext = createContext();
+export const socketContext = createContext();
 
 function SocketContext({ children }) {
   const [socketData, setSocketData] = useState(null);
@@ -11,9 +11,9 @@ function SocketContext({ children }) {
   }, []);
   console.log(socketData)
   return (
-    <myContext.Provider value={{socketData,setSocketData}}>
+    <socketContext.Provider value={{socketData,setSocketData}}>
       {children}
-    </myContext.Provider>
+    </socketContext.Provider>
   );
 }
 

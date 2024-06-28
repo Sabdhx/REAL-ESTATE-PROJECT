@@ -7,7 +7,9 @@ const io = new Server({
 });
 console.log("hellow")
 io.on("connection", (socket) => {
-  console.log(socket);
+  socket.on("test", (socket)=>{
+    console.log(socket)
+  })
 })
 
 io.listen(4000)

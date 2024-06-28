@@ -3,14 +3,15 @@ import "./Chat.scss";
 import axios from "axios";
 import { format } from "timeago.js";
 import { myContext } from "../../useContext/UserContext";
+import { socketContext } from "../../useContext/socketContext";
 
 function Chat() {
   const [chat, setChat] = useState([]);
   const [loading, setLoading] = useState(false);
   const [chatBox, setChatBox] = useState(false);
   const {fetchedData} = useContext(myContext)
-
-
+  const {socketData,setSocketData} = useContext(socketContext)
+ 
   useEffect(() => {
     const fetchingChats = async () => {
       setLoading(true);
@@ -52,12 +53,15 @@ function Chat() {
         console.log(error);
     }
 };
-
+  const handleClick = ()=>{
+    socketData.emit("test" , "hello client")
+  }
 
   return (
     <div className="chat">
       <div className="messages">
         <h1>Messages</h1>
+        <button onClick={handleClick}>click me</button>
         {chat?.chats?.map((item) => (
           <div
             className="message"
